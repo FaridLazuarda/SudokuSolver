@@ -41,9 +41,9 @@ Berikut ini adalah persiapan environment yang dibutuhkan untuk menjalankan aplik
 - Untuk lebih memudahkan penggunaan pytesseract, masukkan directory pytesseract pada PC yang digunakan ke dalam PATH environment variables. Setelah itu cek apakah
   tesserract dapat dijalankan dengan command berikut `tesseract -v` pada command line seperti pada contoh dibawah ini
 
-  <p align="center">
-    <img align="center" src="ss.png"
-  </p>
+<p align="center">
+<img align="center" src="ss.png"
+</p>
 
 ## How to Run
 1. Pastikan file yang akan diproses sudah terletak pada folder `./test`.
@@ -55,9 +55,11 @@ Berikut ini adalah persiapan environment yang dibutuhkan untuk menjalankan aplik
 4. Masukkan nomor file yang terdapat pada setelah jenis file, misalkan jika ingin memasukkan file `image1.png`, maka memasukkan angka 1, begitu pula jika file yang 
    dimasukkan adalah file .txt. Apabila ingin menambahkan test case baru, maka beri nama sesuai yang ada pada folder `./test`, misal `image5.png` atau `tc5.txt`.
 5. Program akan menampilkan board sudoku yang dimasukkan seperti berikut. Tunggu beberapa saat untuk preprocessing gambar.
-  <p align="center">
-    <img align="center" src="ss2.png"
-  </p>
+
+<p align="center">
+<img align="center" src="ss2.png"
+</p>
+
 6. Tunggu hingga sudoku berhasil diselesaikan.
 7. Solusi puzzle akan ditampilkan pada layar dan akan disimpan pada folder `./ans` dengan format file [JENIS FILE][NOMOR TESTCASE]-ans.txt
 8. Apabila puzzle tidak bisa diselesaikan, maka akan muncul `Unsolvable pada layar`.
