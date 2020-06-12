@@ -10,11 +10,6 @@ Strategi yang digunakan adalah menggunakan algoritma Backtracking. Algoritma Bac
 Selain itu, algoritma backtracking juga efisien untuk penyelesaian Sudoku pada kasus rata-rata. Untuk kompleksitas algoritma backtracking pada Sudoku, kompleksitas waktu yang diperlukan adalah O(9^(n*n)). Kompleksitas waktu tersebut diperoleh mengingat banyaknya opsi pemilihan angka dari 1-9 untuk setiap area / cell pada matrix 9x9 (NxN).Sedangkan kompleksitas ruang yang diperlukan adalah O(n^n) untuk menyimpan grid sudoku dalam sebuah matrix.
 
 # Sudoku Solver
-
-<p align="center">
-    <img align="center" src="test/image1.png"
-</p>
-
 ### Library Pengerjaan Bonus
 Dalam pengerjaan bonus, berikut ini adalah beberapa library yang digunakan dalam menunjang pemrosesan gambar sudoku ke dalam program.
 - **Pyesseract**<br>
