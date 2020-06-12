@@ -1,10 +1,14 @@
 from IOProcess import *
 
+# tesseract.pytesseract.tesseract_cmd = r'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
+
 # ukuran puzzle
 SIZE = 9
 
-# fungsi untuk print board
 def print_board(bo):
+    """
+    fungsi untuk print board
+    """
     for i in range(len(bo)):
         if i % 3 == 0:
             if i == 0:
@@ -23,30 +27,34 @@ def print_board(bo):
 
     print(" ┖─────────┸─────────┸─────────┚")
 
-# fungsi untuk mengecek apakah sel sudah terisi
-# jika belum akan diisi sebuah angka
-def number_unassigned(board, row, col):
-    num_unassign = 0
-    for i in range(0,SIZE):
-        for j in range (0,SIZE):
+def zero_loc(board, row, col):
+    """
+    fungsi untuk mengecek apakah sel sudah terisi
+    jika belum akan diisi sebuah angka
+    """
+    zeros = 0
+    for i in range(SIZE):
+        for j in range (SIZE):
             # sel belum terisi
             if board[i][j] == 0:
                 row = i
                 col = j
-                num_unassign = 1
-                a = [row, col, num_unassign]
-                return a
-    a = [-1, -1, num_unassign]
-    return a
+                zeros = 1
+                a = [row, col, zeros]
+                return row,col,zeros
+    row,col = -1,-1
+    return row,col,zeros
 
-# fungsi apakah dapat meletakkan suatu angka pada sel
-def is_safe(board, n, r, c):
+def placeable(board, n, r, c):
+    """
+    fungsi apakah dapat meletakkan suatu angka pada sel
+    """
     # cek baris
-    for i in range(0,SIZE):
+    for i in range(SIZE):
         if board[r][i] == n:
             return False
     # cek kolom
-    for i in range(0,SIZE):
+    for i in range(SIZE):
         if board[i][c] == n:
             return False
     row_start = (r//3)*3
@@ -58,36 +66,40 @@ def is_safe(board, n, r, c):
                 return False
     return True
 
-# fungsi backtrack untuk menyelesaikan puzzle
-def solve_sudoku(board):
-    row = 0
-    col = 0
+def solve(board):
+    """
+    fungsi backtrack untuk menyelesaikan puzzle
+    """
+    row, col = 0,0
     # jika semua sel terisi maka sudah selesai
-    a = number_unassigned(board, row, col)
-    if a[2] == 0:
+    row,col,zero = zero_loc(board, row, col)
+    if zero == 0:
         return True
-    row = a[0]
-    col = a[1]
+    
     # angka 1-9
-    for i in range(1,10):
-        if is_safe(board, i, row, col):
+    for i in range(1,SIZE+1):
+        if placeable(board, i, row, col):
             board[row][col] = i
             # backtrack
-            if solve_sudoku(board):
+            if solve(board):
                 return True
             board[row][col]=0
     return False
 
-# mencetak koordinat angka 5 pada matriks sudoku
 def fives(board):
+    """
+    mencetak koordinat angka 5 pada matriks sudoku
+    """
     print("\nLokasi para 5 : ",end='')
     for i in range(SIZE):
         for j in range(SIZE):
             if board[i][j] == 5:
                 print("(" + str(i) + "," + str(j) + ")",end=" ")
 
-# main function
 if __name__ == "__main__":
+    """
+    main function
+    """
     choice = input("Apakah menggunakan input gambar? [y/n] ")
     is_pic = False
     if choice == "y":
@@ -102,8 +114,8 @@ if __name__ == "__main__":
         mat = open_txt(input_file)
         print_board(mat)
 
-    solve_sudoku(mat)
-    if solve_sudoku(mat):
+    solve(mat)
+    if solve(mat):
         print("\nPuzzle akhir :")
         print_board(mat)
         fives(mat)

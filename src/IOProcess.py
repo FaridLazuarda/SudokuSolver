@@ -8,10 +8,11 @@ import io
 
 SIZE = 9
 
-"""
-fungsi untuk membuka file txt
-"""
+
 def open_txt(tc):
+    """
+    fungsi untuk membuka file txt
+    """
     file = "../test/tc" + str(tc) + ".txt"
     board = [[0 for i in range(SIZE)] for j in range(SIZE)]
     with open(file,'r') as f:
@@ -20,10 +21,12 @@ def open_txt(tc):
             board[i] = [(int(i) if i != '#' else 0) for i in line.split(' ')]
     return board
 
-"""
-fungsi untuk membuka file img (jpg atau png)
-"""
+
 def open_image(number) :
+    """
+    fungsi untuk membuka file img (jpg atau png) 
+    dan dikonversi ke matriks
+    """
     # Inisialisasi
     board = [[0 for i in range(SIZE)] for j in range(SIZE)]
     
@@ -33,17 +36,19 @@ def open_image(number) :
 
     # Mendapatkan lebar dan tinggi tiap grid
     row, col = image.size
-    h, w = row/SIZE, col/SIZE
-    # print(h,w)
+    height = row/SIZE
+    width = col/SIZE
 
     for i in range(SIZE) :
         for j in range(SIZE) :
             # Crop grid
-            cropped = image.crop((4 + w*j, 4 + h*i, w*(j+1) - 4, h*(i+1) - 3))
+            cropped = image.crop((4 + width*j, 4 + height*i, width*(j+1) - 4, height*(i+1) - 3))
             np_img = np.array(cropped)
             if(np_img.mean() > 20):    
                 cropped = cropped.convert('RGB')
                 cropped = cropped.filter(ImageFilter.MedianFilter())
+                enhancer = ImageEnhance.Contrast(cropped)
+                cropped = enhancer.enhance(2)
                 # Konversi ke string dan menangani kasus 
                 # kesalahan konversi untuk angka 5,2,8,9
                 result = pytesseract.image_to_string(cropped, config='--psm 6')
@@ -67,10 +72,10 @@ def open_image(number) :
         board[0][3] = 2
     return board
 
-"""
-fungsi untuk menghilangkan garis tebal agar memudahkan cropping
-"""
 def preprocess_image(file):
+    """
+    fungsi untuk menghilangkan garis tebal agar memudahkan cropping
+    """
     path = "test/image" + str(file) + ".png"
     image = cv2.imread(path)
     kernel_vertical = cv2.getStructuringElement(cv2.MORPH_RECT, (1,50))
@@ -82,11 +87,11 @@ def preprocess_image(file):
     cv2.imwrite('test/preprocess_'+str(file)+'.png',result)
     return result
 
-"""
-Menulis hasil pemrosesan ke text file
-"""
 def write_result(res,tc,is_image):
-    path = "../ans/"
+    """
+    Menulis hasil pemrosesan ke text file
+    """
+    path = "../result/"
     if is_image:
         path = path + "image" + str(tc) + "-ans.txt"
     else :
@@ -121,12 +126,14 @@ def write_result(res,tc,is_image):
     for i in range(SIZE) :
         for j in range(SIZE) :
             if res[i][j] == 5 :
-                print(f"({i},{j})",end=" ",file=f)
+                print("(" + str(i) + "," + str(j) + ")",end=" ")
 
     f.close()
 
-# fungsi untuk image preprocessing
 def preprocess_warning():
+    """
+    fungsi untuk image preprocessing
+    """
     for infile in glob.glob("../test/*.png"):
         im = Image.open(infile)
         im.save(infile)
