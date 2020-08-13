@@ -27,10 +27,10 @@ def print_board(bo):
 
     print(" ┖─────────┸─────────┸─────────┚")
 
-def zero_loc(board, row, col):
+def zero_loc(row, col, board):
     """
     fungsi untuk mengecek apakah sel sudah terisi
-    jika belum akan diisi sebuah angka
+    jika belum akan diisi sebuah angka di main
     """
     zeros = 0
     for i in range(SIZE):
@@ -71,11 +71,11 @@ def solve(board):
     fungsi backtrack untuk menyelesaikan puzzle
     """
     row, col = 0,0
-    # jika semua sel terisi maka sudah selesai
-    row,col,zero = zero_loc(board, row, col)
+    # jika semua sel terisi berarti sudah selesai
+    row,col,zero = zero_loc(row, col, board)
+
     if zero == 0:
         return True
-    
     # angka 1-9
     for i in range(1,SIZE+1):
         if placeable(board, i, row, col):
@@ -90,11 +90,11 @@ def fives(board):
     """
     mencetak koordinat angka 5 pada matriks sudoku
     """
-    print("\nLokasi para 5 : ",end='')
+    # print("\nLokasi para 5 : ",end='\n')
     for i in range(SIZE):
         for j in range(SIZE):
             if board[i][j] == 5:
-                print("(" + str(i) + "," + str(j) + ")",end=" ")
+                print("[ " + str(i) + " , " + str(j) + " ]",end="\n")
 
 if __name__ == "__main__":
     """
@@ -118,8 +118,9 @@ if __name__ == "__main__":
     if solve(mat):
         print("\nPuzzle akhir :")
         print_board(mat)
-        fives(mat)
     else:
         print("Unsolvable")
 
+    print("Lokasi para 5 :")
+    fives(mat)
     write_result(mat, input_file, is_pic)

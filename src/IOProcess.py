@@ -91,11 +91,14 @@ def write_result(res,tc,is_image):
     """
     Menulis hasil pemrosesan ke text file
     """
+    fn=""
     path = "../result/"
     if is_image:
         path = path + "image" + str(tc) + "-ans.txt"
+        fn = "result/image" + str(tc) + "-ans.txt"
     else :
         path = path + "text" + str(tc) + "-ans.txt"
+        fn = "result/text" + str(tc) + "-ans.txt"
 
     f = open(path, "w",encoding="utf-8")
 
@@ -122,12 +125,14 @@ def write_result(res,tc,is_image):
     print(" ┖─────────┸─────────┸─────────┚",file=f)
 
     print("", file = f)
-    print("Lokasi 5 : ", end="",file = f)
+    print("Lokasi para 5 : ", end="\n",file = f)
     for i in range(SIZE) :
         for j in range(SIZE) :
             if res[i][j] == 5 :
-                print("(" + str(i) + "," + str(j) + ")",end=" ")
+                print("[ " + str(i) + " , " + str(j) + " ]",end="\n", file=f)
 
+    print()
+    print("Hasil tersimpan pada file "+fn)
     f.close()
 
 def preprocess_warning():
